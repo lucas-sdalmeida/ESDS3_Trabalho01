@@ -24,7 +24,7 @@ LPlaylist_No *remover_playlist_id(int id_playlist);
 
 Playlist *encontrar_playlist(int id);
 
-LPLaylist_No *apagar_no_lplaylist(LPlaylist_No *no_lplaylist);
+LPlaylist_No *apagar_no_lplaylist(LPlaylist_No *no_lplaylist);
 
 Lista_Playlists *apagar_lista_playlists(Lista_Playlists *lplaylist);
 
