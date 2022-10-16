@@ -35,5 +35,5 @@ int compara_musica(Musica *musica1, Musica *musica2) {
 
 Musica *apagar_musica(Musica *musica) {
     free(musica);
-    return musica;
+    return NULL;
 }

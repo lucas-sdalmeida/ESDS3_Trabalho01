@@ -33,5 +33,5 @@ int compara_artista(Artista *artista1, Artista *artista2) {
 
 Artista *apagar_artista(Artista *artista) {
     free(artista);
-    return artista;
+    return NULL;
 }

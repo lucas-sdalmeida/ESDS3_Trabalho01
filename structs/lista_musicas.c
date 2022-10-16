@@ -48,7 +48,7 @@ Musica_No *remover_musica(Lista_Musicas *musicas, Musica *musica) {
     no = a_remover->prox;
     apagar_no_musica(a_remover);
 
-    return a_remover;
+    return NULL;
 }
 
 Musica_No *remover_musica_id(Lista_Musicas *musicas, int id_musica) {
@@ -103,7 +103,7 @@ Musica_No *apagar_no_musica(Musica_No *no_musica) {
     apagar_musica(no_musica->musica);
     free(no_musica);
 
-    return no_musica;
+    return NULL;
 }
 
 Lista_Musicas *apagar_lista_musicas(Lista_Musicas *musicas) {
@@ -116,5 +116,5 @@ Lista_Musicas *apagar_lista_musicas(Lista_Musicas *musicas) {
             prox = musicas->prox;
     }
 
-    return musicas;
+    return NULL;
 }
