@@ -1,7 +1,8 @@
 #ifndef _PLAYLIST_H
 #define _PLAYLIST_H
 
-#include "musica.h";
+#include "musica.h"
+#include <stdlib.h>
 
 typedef struct playlist_no {
     Musica *musica;
@@ -12,18 +13,18 @@ Playlist_No *novo_no_playlist(Musica *musica);
 
 Playlist *nova_playlist(void);
 
-Playlist_No *adicionar_musica_playlist(Musica *musica);
+Playlist_No *adicionar_musica_playlist(Playlist *playlist, Musica *musica);
 
-Playlist_No *remover_musica_playlist(Musica *musica);
+int remover_musica_playlist(Playlist *playlist, Musica *musica);
 
-Playlist_No *remover_musica_id_playlist(int id_musica);
+int remover_musica_id_playlist(Playlist *playlist, int id_musica);
 
-Playlist_No *encontrar_musica_playlist(int id);
+Musica *encontrar_musica_playlist(Playlist *playlist, int id);
 
-Playlist_No *apagar_no_playlist(Playlist_No *no_playlist);
+int apagar_no_playlist(Playlist_No *no_playlist);
 
 int compara_playlists(Playlist *playlist1, Playlist *playlist2);
 
-Playlist *apagar_playlist(Playlist *playlist);
+int apagar_playlist(Playlist *playlist);
 
 #endif
