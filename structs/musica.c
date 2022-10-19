@@ -33,7 +33,10 @@ int compara_musica(Musica *musica1, Musica *musica2) {
     return 0;
 }
 
-Musica *apagar_musica(Musica *musica) {
+int apagar_musica(Musica *musica) {
+    if (!musica)
+        return 1;
+
     free(musica);
-    return NULL;
+    return 0;
 }

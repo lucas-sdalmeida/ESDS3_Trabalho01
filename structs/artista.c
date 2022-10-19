@@ -31,7 +31,10 @@ int compara_artista(Artista *artista1, Artista *artista2) {
     return 0;
 }
 
-Artista *apagar_artista(Artista *artista) {
+int apagar_artista(Artista *artista) {
+    if (!artista)
+        return 1;
+
     free(artista);
-    return NULL;
+    return 0;
 }

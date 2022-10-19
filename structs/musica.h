@@ -18,6 +18,6 @@ Musica *nova_musica(char *titulo, Artista *artista, int duracao_em_segundos);
 
 int compara_musica(Musica *musica1, Musica *musica2);
 
-Musica *apagar_musica(Musica *musica);
+int apagar_musica(Musica *musica);
 
 #endif

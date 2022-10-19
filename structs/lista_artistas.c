@@ -31,11 +31,11 @@ Artista_No *adicionar_artista(Lista_Artistas *artistas, Artista *artista) {
     return no->prox;
 }
 
-void remover_artista(Lista_Artistas *artistas, Artista *artista) {
+int remover_artista(Lista_Artistas *artistas, Artista *artista) {
     if (!artistas)
-        return;
+        return -1;
     if (!artista)
-        return;
+        return 1;
     
     Artista_No *no = artistas;
     Artista_No *a_remover = NULL;
@@ -43,16 +43,17 @@ void remover_artista(Lista_Artistas *artistas, Artista *artista) {
     while (no->prox && compara_artista(no->prox->artista, artista))
         no = no->prox;
     if (!no)
-        return;
+        return 2;
     a_remover = no->prox;
     no->prox = a_remover->prox;
     apagar_no_artista(a_remover);
+    return 0;
 }
 
-void remover_artista_id(Lista_Artistas *artistas, int id_artista) {
+int remover_artista_id(Lista_Artistas *artistas, int id_artista) {
     Artista *artista = encontrar_artista(artistas, id_artista);
 
-    remover_artista(artistas, artista);
+    return remover_artista(artistas, artista);
 }
 
 Artista_No *encontrar_artista(Lista_Artistas *artistas, int id) {
@@ -71,21 +72,26 @@ Artista_No *encontrar_artista(Lista_Artistas *artistas, int id) {
     return no->artista;
 }
 
-void apagar_no_artista(Artista_No *no_artista) {
+int apagar_no_artista(Artista_No *no_artista) {
     if (!no_artista)
-        return;
+        return 1;
     
     apagar_artista(no_artista->artista);
     free(no_artista);
 }
 
-void apagar_lista_artistas(Lista_Artistas *artistas) {
+int apagar_lista_artistas(Lista_Artistas *artistas) {
+    if (!artistas)
+        return 1;
+
     Artista_No *prox = artistas->prox;
 
     while (artistas) {
-        free(artistas);
+        apagar_no_artista(artistas);
         artistas = prox;
         if (artistas)
             prox = artistas->prox;
     }
+
+    return 0;
 }

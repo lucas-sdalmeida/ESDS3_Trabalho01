@@ -17,6 +17,6 @@ Artista *novo_artista(char *nome, char *genero);
 
 int compara_artista(Artista *artista1, Artista *artista2);
 
-Artista *apagar_artista(Artista *artista);
+int apagar_artista(Artista *artista);
 
 #endif

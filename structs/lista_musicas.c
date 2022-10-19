@@ -31,11 +31,11 @@ Musica_No *adicionar_musica(Lista_Musicas *musicas, Musica *musica) {
     return no->prox;
 }
 
-Musica_No *remover_musica(Lista_Musicas *musicas, Musica *musica) {
+int remover_musica(Lista_Musicas *musicas, Musica *musica) {
     if (!musicas)
         return -1;
     if (!musica)
-        return -1;
+        return 1;
 
     Musica_No *no = musicas;
     Musica_No *a_remover = NULL;
@@ -43,15 +43,15 @@ Musica_No *remover_musica(Lista_Musicas *musicas, Musica *musica) {
     while (no->prox && compara_musica(no->prox->musica, musica))
         no = no->prox;
     if (!no->prox)
-        return NULL;
+        return 2;
     a_remover = no->prox;
     no = a_remover->prox;
     apagar_no_musica(a_remover);
 
-    return NULL;
+    return 0;
 }
 
-Musica_No *remover_musica_id(Lista_Musicas *musicas, int id_musica) {
+int remover_musica_id(Lista_Musicas *musicas, int id_musica) {
     Musica *musica = encontrar_musica(musicas, id_musica);
 
     return remover_musica(musicas, musica);
@@ -73,40 +73,44 @@ Musica *encontrar_musica(Lista_Musicas *musicas, int id) {
     return no->musica;
 }
 
-Lista_Musicas *encontrar_musica_artista(Lista_Musicas *musicas, 
-                                        int id_artista) {
+int encontrar_musica_artista(Lista_Musicas *musicas, 
+                                        int id_artista, 
+                                        Lista_Musicas *aux_musicas_artista) {
     if (!musicas)
-        return NULL;
+        return -1;
     if (id_artista <= 0)
-        return NULL;
+        return -2;
+    if (!aux_musicas_artista)
+        return -3;
 
-    Lista_Musicas *musicas_artista = nova_lista_musicas();
+    int numero_musicas = 0;
     Musica_No *no = musicas->prox;
 
-    if (!musicas_artista)
-        return NULL;
     while (no) {
-        if (no->musica->id == id_artista)
-            adicionar_musica(musicas_artista, no->musica);
+        if (no->musica->id_artista == id_artista) {
+            adicionar_musica(aux_musicas_artista, no->musica);
+            numero_musicas++;
+        }
         no = no->prox;
     }
-    if (!musicas_artista->prox)
-        return NULL;
-    
-    return musicas_artista;
+
+    return numero_musicas;
 }
 
-Musica_No *apagar_no_musica(Musica_No *no_musica) {
+int apagar_no_musica(Musica_No *no_musica) {
     if (!no_musica)
-        return NULL;
+        return 1;
     
     apagar_musica(no_musica->musica);
     free(no_musica);
 
-    return NULL;
+    return 0;
 }
 
-Lista_Musicas *apagar_lista_musicas(Lista_Musicas *musicas) {
+int apagar_lista_musicas(Lista_Musicas *musicas) {
+    if (!musicas)
+        return 1;
+
     Musica_No *prox = musicas->prox;
 
     while (musicas) {
@@ -116,5 +120,5 @@ Lista_Musicas *apagar_lista_musicas(Lista_Musicas *musicas) {
             prox = musicas->prox;
     }
 
-    return NULL;
+    return 0;
 }
