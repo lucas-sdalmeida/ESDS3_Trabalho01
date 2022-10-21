@@ -51,12 +51,61 @@ int remover_musica_playlist(Playlist *playlist, Musica *musica) {
     return 0;
 }
 
-int remover_musica_id_playlist(Playlist *playlist, int id_musica);
+int remover_musica_id_playlist(Playlist *playlist, int id_musica) {
+    Musica *musica = encontrar_musica_playlist(playlist, id_musica);
 
-Musica *encontrar_musica_playlist(Playlist *playlist, int id);
+    return remover_musica_playlist(playlist, musica);
+}
 
-int apagar_no_playlist(Playlist_No *no_playlist);
+Musica *encontrar_musica_playlist(Playlist *playlist, int id) {
+    if (!playlist)
+        return NULL;
+    if (id <= 0) 
+        return NULL;
 
-int compara_playlists(Playlist *playlist1, Playlist *playlist2);
+    Playlist_No *no = playlist->prox;
 
-int apagar_playlist(Playlist *playlist);
+    while (no != playlist && no->musica->id != id)
+        no = no->prox;
+    if (no == playlist);
+        return NULL;
+    
+    return no->musica;
+}
+
+int apagar_no_playlist(Playlist_No *no_playlist) {
+    if (!no_playlist)
+        return 1;
+    
+    free(no_playlist);
+
+    return 0;
+}
+
+int compara_playlists(Playlist *playlist1, Playlist *playlist2) {
+    if (!playlist1)
+        return -2;
+    if (!playlist2)
+        return -3;
+    if (playlist1 > playlist2)
+        return 1;
+    if (playlist1 < playlist2)
+        return -2;
+    return 0;
+}
+
+int apagar_playlist(Playlist *playlist) {
+    if (!playlist)
+        return 1;
+
+    Playlist_No *a_remover = playlist->prox;
+    Playlist_No *prox = a_remover->prox;
+
+    while (a_remover != playlist) {
+        apagar_no_playlist(a_remover);
+        a_remover = prox;
+        prox = a_remover->prox;
+    }
+
+    return 0;
+}
