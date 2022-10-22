@@ -42,12 +42,13 @@ Descricao:
 #include <stdlib.h>
 #include <string.h>
 
-#include "../structs/musica.h"
-#include "../structs/artista.h"
-#include "../structs/lista_musicas.h"
-#include "../structs/lista_artistas.h"
-#include "../structs/playlist.h"
-#include "../structs/lplaylists.h"
+#include "../tdas/musica.h"
+#include "../tdas/artista.h"
+#include "../tdas/lista_musicas.h"
+#include "../tdas/lista_artistas.h"
+#include "../tdas/playlist.h"
+#include "../tdas/lplaylists.h"
+#include "../util/menus.h"
 
 int main(void) {
    Lista_Musicas *musicas = nova_lista_musicas();

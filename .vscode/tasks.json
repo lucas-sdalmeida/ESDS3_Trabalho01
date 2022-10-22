@@ -7,7 +7,8 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${workspaceFolder}\\structs\\*.c",
+                "${workspaceFolder}\\tdas\\*.c",
+                "${workspaceFolder}\\util\\*.c",
                 "${file}",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
