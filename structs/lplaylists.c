@@ -8,7 +8,9 @@ LPlaylist_No *novo_no_lplaylist(char *nome_playlist, Playlist *playlist) {
     
     static int gerador_id = 0;
     novo_no->id = gerador_id++;
-    strcpy(novo_no->nome, nome_playlist);
+    novo_no->nome[0] = 0;
+    if (nome_playlist)
+        strcpy(novo_no->nome, nome_playlist);
     novo_no->musicas = playlist;
     novo_no->prox = NULL;
 

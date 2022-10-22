@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "lista_musicas.h": "c"
+        "lista_musicas.h": "c",
+        "artista.h": "c"
     }
 }

@@ -12,7 +12,7 @@ Artista *novo_artista(char *nome, char *genero) {
     if (!artista_novo)
         return NULL;
 
-    artista_novo->id = gerador_id++;
+    artista_novo->id = ++gerador_id;
     strcpy(artista_novo->nome, nome);
     strcpy(artista_novo->genero, genero);
 

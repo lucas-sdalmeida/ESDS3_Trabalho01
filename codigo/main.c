@@ -50,5 +50,12 @@ Descricao:
 #include "../structs/lplaylists.h"
 
 int main(void) {
-    return 0;
+   Lista_Musicas *musicas = nova_lista_musicas();
+   Lista_Artistas *artistas = nova_lista_artistas();
+   Lista_Playlists *lista_playlists = nova_lista_playlists();
+
+   apagar_lista_musicas(musicas);
+   apagar_lista_artistas(artistas);
+   apagar_lista_playlists(lista_playlists);
+   return 0;
 }       
