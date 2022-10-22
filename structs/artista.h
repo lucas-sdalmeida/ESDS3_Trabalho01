@@ -10,7 +10,7 @@
 typedef struct artista {
     int id;
     char nome[TAMANHO_NOME_ARTISA];
-    char genero[TAMANHO_GENERO_ARTISTA]
+    char genero[TAMANHO_GENERO_ARTISTA];
 } Artista;
 
 Artista *novo_artista(char *nome, char *genero);

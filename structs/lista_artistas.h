@@ -19,7 +19,7 @@ int remover_artista(Lista_Artistas *artistas, Artista *artista);
 
 int remover_artista_id(Lista_Artistas *artistas, int id_artista);
 
-Artista_No *encontrar_artista(Lista_Artistas *artistas, int id);
+Artista *encontrar_artista(Lista_Artistas *artistas, int id);
 
 int apagar_no_artista(Artista_No *no_artista);
 

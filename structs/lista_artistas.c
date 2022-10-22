@@ -56,7 +56,7 @@ int remover_artista_id(Lista_Artistas *artistas, int id_artista) {
     return remover_artista(artistas, artista);
 }
 
-Artista_No *encontrar_artista(Lista_Artistas *artistas, int id) {
+Artista *encontrar_artista(Lista_Artistas *artistas, int id) {
     if (!artistas)
         return NULL;
     if (id <= 0)
