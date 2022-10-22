@@ -14,7 +14,7 @@ Musica *nova_musica(char *titulo, Artista *artista, int duracao_em_segundos) {
     if (!musica_nova)
         return NULL;
     
-    musica_nova->id = ++gerador_id;
+    musica_nova->id = gerador_id++;
     strcpy(musica_nova->titulo, titulo);
     musica_nova->id_artista = artista->id;
     musica_nova->duracao_em_segundos = duracao_em_segundos;
