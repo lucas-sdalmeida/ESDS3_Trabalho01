@@ -1,6 +1,7 @@
 #ifndef _UTILIDADES_H
 #define _UTILIDADES_H
 
+#include <stdio.h>
 #include <string.h>
 #include "../tdas/playlist.h"
 

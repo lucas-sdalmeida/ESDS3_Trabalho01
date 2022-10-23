@@ -94,7 +94,15 @@ int formatar_nome(char *nome) {
 }
 
 int formatar_hora(int tempo_em_segundos, char *destino) {
-    return 0;
+    if (!destino)
+        return -1;
+
+    int minutos = tempo_em_segundos / 60;
+    tempo_em_segundos %= 60;
+    int horas = minutos / 60;
+    minutos %= 60;
+
+    return sprintf(destino, "%02d:%02d:%02d", horas, minutos, tempo_em_segundos);
 }
 
 int ler_vetor_int(char *origem, int tam_vetor, int *destino) {

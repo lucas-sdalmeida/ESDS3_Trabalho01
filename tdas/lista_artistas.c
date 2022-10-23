@@ -87,6 +87,8 @@ Artista *encontrar_artista(Lista_Artistas *artistas, int id) {
 int maior_id_artista(Lista_Artistas *artistas) {
     if (!artistas)
         return -1;
+    if (!artistas->prox)
+        return 0;
     
     Artista_No *no = artistas->prox;
     int maior_id = no->artista->id;

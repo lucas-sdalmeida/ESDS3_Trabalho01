@@ -101,7 +101,7 @@ int ler_confirmacao(char *msg, char char_confirma, char char_rejeita) {
     if (e_letra(char_rejeita) == 2)
         char_rejeita += 32;
     
-    char *aux_opcao[TAMANHO_AUX_OPCAO];
+    char aux_opcao[TAMANHO_AUX_OPCAO];
     aux_opcao[0] = 0;
 
     do {
@@ -228,7 +228,7 @@ int cadastrar_musica(Lista_Musicas *musicas, Lista_Artistas *artistas) {
 
     int duracao_musica;
     duracao_musica = ler_inteiro("Digite a duracao, em segundos, da musica:\n\t>>> ",
-                                    1, pow(2, sizeof(int) - 1) - 1);
+                                    1, pow(2, (sizeof(int) * 8) - 1) - 1);
     Musica *musica = nova_musica(nome_musica, artista_musica, duracao_musica);
 
     linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
@@ -237,9 +237,71 @@ int cadastrar_musica(Lista_Musicas *musicas, Lista_Artistas *artistas) {
     return (!adicionar_musica(musicas, musica)) ? -4 : 0;
 }
 
-int exibir_musica(Musica musica, int fechar_borda);
+int exibir_musica(Lista_Artistas *artistas, Musica *musica, int fechar_borda) {
+    if (!artistas)
+        return -1;
+    if (!musica)
+        return -2;
+    
+    Artista *artista_musica = encontrar_artista(artistas, musica->id_artista);
 
-int exibir_musicas(char *titulo_menu, Lista_Musicas *musicas);
+    linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
+
+    printf("     |");
+    centralizar(musica->titulo, COMPRIMENTO_BORDA_SECUNDARIA - 6);
+
+    printf("%4d | Artista:", musica->id);
+    centralizar(artista_musica->nome, COMPRIMENTO_BORDA_SECUNDARIA - 14);
+
+    printf("     | Duracao:");
+    char duracao[10];
+    formatar_hora(musica->duracao_em_segundos, duracao);
+    centralizar(duracao, COMPRIMENTO_BORDA_SECUNDARIA - 15);
+
+    linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
+
+    return 0;
+}
+
+int exibir_musicas(char *titulo_menu, Lista_Artistas *artistas, Lista_Musicas *musicas) {
+    if (!titulo_menu)
+        return -1;
+    if (!artistas)
+        return -2;
+    if (!musicas)
+        return -3;
+
+    Musica_No *no = musicas->prox;
+    int fechar_borda = 0;
+
+    putchar(10);
+    linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+    if (!no) {
+        centralizar("Nenhuma musica foi cadastrada ainda!", 
+                    COMPRIMENTO_BORDA_PRINCIPAL);
+        linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+        putchar(10);
+        return 1;
+    }
+    centralizar(titulo_menu, COMPRIMENTO_BORDA_PRINCIPAL);
+    linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_PRINCIPAL);
+
+    printf("  id |");
+    centralizar("Dados da Musica", COMPRIMENTO_BORDA_PRINCIPAL - 6);
+    linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+
+    while (no) {
+        if (!no->prox)
+            fechar_borda = 1;
+        exibir_musica(artistas, no->musica, fechar_borda);
+        no = no->prox;
+    }
+
+    linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+    putchar(10);
+
+    return 0;
+}
 
 Musica *selecionar_musica(Lista_Musicas *musicas);
 
@@ -267,8 +329,16 @@ int exibir_artistas(Lista_Artistas *artistas) {
 
     putchar(10);
     linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+    if (!no) {
+        centralizar("Ainda nAo cadastrado nenhum artista!",
+                        COMPRIMENTO_BORDA_PRINCIPAL);
+        linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+        putchar(10);
+        return 1;
+    }
     centralizar("Artistas Cadastrados", COMPRIMENTO_BORDA_PRINCIPAL);
     linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_PRINCIPAL);
+
     printf("  id |");
     centralizar("Nome / Genero Musical", COMPRIMENTO_BORDA_PRINCIPAL - 6);
     linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
@@ -298,10 +368,11 @@ Artista *selecionar_artista(Lista_Artistas *artistas, char *msg) {
     Artista *artista;
     int opcao = 0;
 
-    exibir_artistas(artistas);
+    if (exibir_artistas(artistas))
+        return NULL;
     do {    
         int id_artista = ler_opcao(msg, maior_id);
-        Artista *artista = encontrar_artista(artistas, id_artista);
+        artista = encontrar_artista(artistas, id_artista);
         if (!artista) {
             msg_erro("Não foi encontrado nenhum artista com esse id!");
             opcao = !ler_confirmacao("Procurar outro artista? [S/N]\n\t>>> ", 

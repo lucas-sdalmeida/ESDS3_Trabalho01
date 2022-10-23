@@ -69,7 +69,8 @@ int main(void) {
    printf("%d\n", opcao);*/
 
    cadastrar_artista(artistas);
-   exibir_artistas(artistas);
+   cadastrar_musica(musicas, artistas);
+   exibir_musicas("Musicas Cadastradas", artistas, musicas);
 
    apagar_lista_musicas(musicas);
    apagar_lista_artistas(artistas);

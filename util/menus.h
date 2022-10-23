@@ -46,9 +46,9 @@ int cadastrar_artista(Lista_Artistas *artistas);
 
 int cadastrar_musica(Lista_Musicas *musicas, Lista_Artistas *artistas);
 
-int exibir_musica(Musica musica, int fechar_borda);
+int exibir_musica(Lista_Artistas *artistas, Musica *musica, int fechar_borda);
 
-int exibir_musicas(char *titulo_menu, Lista_Musicas *musicas);
+int exibir_musicas(char *titulo_menu, Lista_Artistas *artistas, Lista_Musicas *musicas);
 
 Musica *selecionar_musica(Lista_Musicas *musicas);
 
