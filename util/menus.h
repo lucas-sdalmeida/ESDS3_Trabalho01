@@ -1,7 +1,10 @@
 #ifndef _MENUS_H
 #define _MENUS_H
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
+#include <string.h>
 #include "utilidades.h"
 #include "../tdas/musica.h"
 #include "../tdas/artista.h"
@@ -10,20 +13,28 @@
 #include "../tdas/playlist.h"
 #include "../tdas/lplaylists.h"
 
-#define BORDA_PRINCIPAL "="
-#define BORDA_SECUNDARIA "-"
-#define BORDA_TERCIARIA "-"
+#define BORDA_PRINCIPAL "=\0"
+#define BORDA_SECUNDARIA "-\0"
+#define BORDA_TERCIARIA "-\0"
+#define BORDA_ERRO "__/\0"
 #define COMPRIMENTO_BORDA_PRINCIPAL 60
 #define COMPRIMENTO_BORDA_SECUNDARIA 60
 #define COMPRIMENTO_BORDA_TERCIARIA 30
+#define COMPRIMENTO_BORDA_ERRO 60
 
-int linha(char *padrao, int comprimento);
+void linha(char *padrao, int comprimento);
+
+void centralizar(char *texto, int espaco);
+
+void msg_erro(char *msg);
 
 int menu_opcoes(char *titulo, char *msg_leitura, int num_opcoes,...);
 
 int ler_opcao(char *msg, int num_opcoes);
 
 int ler_opcao_de(char *msg, int num_possiveis_valores,...);
+
+int ler_nome(char *msg, char *nome);
 
 int cadastrar_artista(Lista_Artistas *artistas);
 

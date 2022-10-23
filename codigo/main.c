@@ -55,6 +55,20 @@ int main(void) {
    Lista_Artistas *artistas = nova_lista_artistas();
    Lista_Playlists *lista_playlists = nova_lista_playlists();
 
+   int opcao = menu_opcoes("Menu Principal", "\t>>> ", 11, "Cadastrar Artista",
+                  "Cadastrar Musica",
+                  "Exibir Dados de Artista",
+                  "Exibir Musica",
+                  "Exibir Musicas de Artista",
+                  "Criar Playlist",
+                  "Exibir Musicas de Playlist",
+                  "Apagar Musica",
+                  "Apagar Artista",
+                  "Apagar Playlist",
+                  "Sair");
+   printf("%d\n", opcao);
+   getchar();
+
    apagar_lista_musicas(musicas);
    apagar_lista_artistas(artistas);
    apagar_lista_playlists(lista_playlists);
