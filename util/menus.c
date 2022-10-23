@@ -303,7 +303,37 @@ int exibir_musicas(char *titulo_menu, Lista_Artistas *artistas, Lista_Musicas *m
     return 0;
 }
 
-Musica *selecionar_musica(Lista_Musicas *musicas);
+Musica *selecionar_musica(Lista_Artistas *artistas, Lista_Musicas *musicas) {
+    if (!artistas)
+        return NULL;
+    if (!musicas)
+        return NULL;
+
+    if (exibir_musicas("Musicas Cadastradas", artistas, musicas))
+        return NULL;
+
+    int maior_id = maior_id_musica(musicas);
+    Musica *musica = NULL;
+    int id_musica = 0;
+    int opcao = 0;
+
+    do {
+        id_musica = ler_opcao("Escolha a musica:\n\t>>> ", maior_id);
+        musica = encontrar_musica(musicas, id_musica);
+        if (!musica) {
+            msg_erro("Nao foi encontrada nenhuma musica com esse id|");
+            opcao = !ler_confirmacao("Deseja procurar outra musica? [S/N]\n\t>>> ",
+                                        's', 'n');
+        }
+        else {
+            exibir_musica(artistas, musica, 0);
+            opcao = ler_confirmacao("Deseja selecionar essa musica? [S/N]\n\t>>> ",
+                                        's', 'n');
+        }
+    } while (!opcao);
+
+    return musica;
+}
 
 int exibir_artista(Artista *artista, int fechar_borda) {
     if (!artista)
@@ -362,24 +392,24 @@ Artista *selecionar_artista(Lista_Artistas *artistas, char *msg) {
     if (!artistas)
         return NULL;
 
-    int maior_id = maior_id_artista(artistas);
-    if (!maior_id)
-        return NULL;
-    Artista *artista;
-    int opcao = 0;
-
     if (exibir_artistas(artistas))
         return NULL;
+    
+    int maior_id = maior_id_artista(artistas);
+    Artista *artista;
+    int id_artista = 0;
+    int opcao = 0;
+
     do {    
         int id_artista = ler_opcao(msg, maior_id);
         artista = encontrar_artista(artistas, id_artista);
         if (!artista) {
-            msg_erro("Não foi encontrado nenhum artista com esse id!");
+            msg_erro("Nao foi encontrado nenhum artista com esse id!");
             opcao = !ler_confirmacao("Procurar outro artista? [S/N]\n\t>>> ", 
                                         's', 'n');
         }
         else {
-            exibir_artista(artista, 1);
+            exibir_artista(artista, 0);
             opcao = ler_confirmacao("Selecionar esse artista? [S/N]\n\t>>> ",
                                         's', 'n');
         }

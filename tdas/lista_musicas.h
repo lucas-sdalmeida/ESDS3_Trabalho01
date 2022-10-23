@@ -22,6 +22,8 @@ int remover_musica_id(Lista_Musicas *musicas, int id_musica);
 
 Musica *encontrar_musica(Lista_Musicas *musicas, int id);
 
+int maior_id_musica(Lista_Musicas *musicas);
+
 int encontrar_musica_artista(Lista_Musicas *musicas, int id_artista, Lista_Musicas *aux_musicas_artista);
 
 int apagar_no_musica(Musica_No *no_musica);

@@ -71,6 +71,7 @@ int main(void) {
    cadastrar_artista(artistas);
    cadastrar_musica(musicas, artistas);
    exibir_musicas("Musicas Cadastradas", artistas, musicas);
+   selecionar_musica(artistas, musicas);
 
    apagar_lista_musicas(musicas);
    apagar_lista_artistas(artistas);

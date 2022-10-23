@@ -73,6 +73,25 @@ Musica *encontrar_musica(Lista_Musicas *musicas, int id) {
     return no->musica;
 }
 
+int maior_id_musica(Lista_Musicas *musicas) {
+    if (!musicas)
+        return -1;
+    if (!musicas->prox)
+        return 0;
+
+    Musica_No *no = musicas->prox;
+    int maior_id = no->musica->id;
+    no = no->prox;
+
+    while (no) {
+        if (no->musica->id > maior_id)
+            maior_id = no->musica->id;
+        no = no->prox;
+    }
+    
+    return maior_id;
+}
+
 int encontrar_musica_artista(Lista_Musicas *musicas, 
                                         int id_artista, 
                                         Lista_Musicas *aux_musicas_artista) {
