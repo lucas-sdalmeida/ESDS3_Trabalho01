@@ -93,7 +93,32 @@ int ler_opcao(char *msg, int num_opcoes) {
     return opcao;
 }
 
-int ler_opcao_de(char *msg, int num_possiveis_valores,...);
+int ler_confirmacao(char *msg, char char_confirma, char char_rejeita) {
+    if (!char_confirma || !char_rejeita)
+        return 0;
+    if (e_letra(char_confirma) == 2)
+        char_confirma += 32;
+    if (e_letra(char_rejeita) == 2)
+        char_rejeita += 32;
+    
+    char *aux_opcao[TAMANHO_AUX_OPCAO];
+    aux_opcao[0] = 0;
+
+    do {
+        linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
+        if (msg && strlen(msg) > 0)
+            printf(msg);
+        fgets(aux_opcao, TAMANHO_AUX_OPCAO, stdin);
+        cortar_espacos(aux_opcao, 'e');
+        linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
+        if (e_letra(aux_opcao[0]) > 2)
+            aux_opcao[0] += 32;
+        if (aux_opcao[0] != char_confirma && aux_opcao[0] != char_rejeita)
+            msg_erro("Digite um opcao valida!");
+    } while (aux_opcao[0] != char_confirma && aux_opcao[0] != char_rejeita);
+
+    return (aux_opcao[0] == char_confirma) ? 1 : 0;
+}
 
 int ler_nome(char *msg, char *nome) {
     if (!nome)
@@ -136,6 +161,33 @@ int ler_genero_musica(char *msg, char *genero) {
     return 0;
 }
 
+int ler_inteiro(char *msg, int min, int max) {
+    int inteiro = 0;
+    char txt_erro[44];
+
+    while (1) {
+        linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
+        if (msg && strlen(msg) > 0)
+            printf(msg);
+        scanf("%d", &inteiro);
+        getchar();
+        linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
+        if (inteiro > max) {
+            sprintf(txt_erro, "O valor digitado excede o maximo de %d!", max);
+            msg_erro(txt_erro);
+            continue;
+        }
+        if (inteiro < min) {
+            sprintf(txt_erro, "O valor digitado nao atinge o minimo de %d!", min);
+            msg_erro(txt_erro);
+            continue;
+        }
+        break;
+    }
+
+    return inteiro;
+}
+
 int cadastrar_artista(Lista_Artistas *artistas) {
     if (!artistas)
         return -1;
@@ -158,7 +210,32 @@ int cadastrar_artista(Lista_Artistas *artistas) {
     return (!adicionar_artista(artistas, artista)) ? -2 : 0;
 }
 
-int cadastrar_musica(Lista_Musicas *musicas);
+int cadastrar_musica(Lista_Musicas *musicas, Lista_Artistas *artistas) {
+    if (!musicas)
+        return -1;
+    if (!artistas)
+        return -2;
+    
+    Artista *artista_musica = selecionar_artista(artistas, 
+                                "Escolha o artista da musica:\n\t>>> ");
+    if (!artista_musica)
+        return -3;
+    
+    linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+
+    char nome_musica[TAMANHO_TITULO_MUSICA];
+    ler_nome("Informe o nome da musica:\n\t>>> ", nome_musica);
+
+    int duracao_musica;
+    duracao_musica = ler_inteiro("Digite a duracao, em segundos, da musica:\n\t>>> ",
+                                    1, pow(2, sizeof(int) - 1) - 1);
+    Musica *musica = nova_musica(nome_musica, artista_musica, duracao_musica);
+
+    linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+    putchar(10);
+
+    return (!adicionar_musica(musicas, musica)) ? -4 : 0;
+}
 
 int exibir_musica(Musica musica, int fechar_borda);
 
@@ -191,8 +268,10 @@ int exibir_artistas(Lista_Artistas *artistas) {
     putchar(10);
     linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
     centralizar("Artistas Cadastrados", COMPRIMENTO_BORDA_PRINCIPAL);
+    linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_PRINCIPAL);
+    printf("  id |");
+    centralizar("Nome / Genero Musical", COMPRIMENTO_BORDA_PRINCIPAL - 6);
     linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
-    putchar(10);
 
     while (no) {
         if (!no->prox)
@@ -202,13 +281,41 @@ int exibir_artistas(Lista_Artistas *artistas) {
     }
 
     linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+    putchar(10);
 
     return 0;
 }
 
 int exibir_musicas_artista(Lista_Musicas *musicas, Lista_Artistas *artistas);
 
-Artista *selecionar_artista(Lista_Artistas *artistas);
+Artista *selecionar_artista(Lista_Artistas *artistas, char *msg) {
+    if (!artistas)
+        return NULL;
+
+    int maior_id = maior_id_artista(artistas);
+    if (!maior_id)
+        return NULL;
+    Artista *artista;
+    int opcao = 0;
+
+    exibir_artistas(artistas);
+    do {    
+        int id_artista = ler_opcao(msg, maior_id);
+        Artista *artista = encontrar_artista(artistas, id_artista);
+        if (!artista) {
+            msg_erro("Não foi encontrado nenhum artista com esse id!");
+            opcao = !ler_confirmacao("Procurar outro artista? [S/N]\n\t>>> ", 
+                                        's', 'n');
+        }
+        else {
+            exibir_artista(artista, 1);
+            opcao = ler_confirmacao("Selecionar esse artista? [S/N]\n\t>>> ",
+                                        's', 'n');
+        }
+    } while (!opcao);
+    
+    return artista;
+}
 
 int criar_playlist(Lista_Playlists *lista_playlists);
 

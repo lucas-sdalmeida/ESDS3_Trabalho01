@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <math.h>
 #include "utilidades.h"
 #include "../tdas/musica.h"
 #include "../tdas/artista.h"
@@ -21,6 +22,7 @@
 #define COMPRIMENTO_BORDA_SECUNDARIA 60
 #define COMPRIMENTO_BORDA_TERCIARIA 30
 #define COMPRIMENTO_BORDA_ERRO 60
+#define TAMANHO_AUX_OPCAO 10
 
 void linha(char *padrao, int comprimento);
 
@@ -32,15 +34,17 @@ int menu_opcoes(char *titulo, char *msg_leitura, int num_opcoes,...);
 
 int ler_opcao(char *msg, int num_opcoes);
 
-int ler_opcao_de(char *msg, int num_possiveis_valores,...);
+int ler_confirmacao(char *msg, char char_confirma, char char_rejeita);
 
 int ler_nome(char *msg, char *nome);
 
 int ler_genero_musica(char *msg, char *genero);
 
+int ler_inteiro(char *msg, int min, int max);
+
 int cadastrar_artista(Lista_Artistas *artistas);
 
-int cadastrar_musica(Lista_Musicas *musicas);
+int cadastrar_musica(Lista_Musicas *musicas, Lista_Artistas *artistas);
 
 int exibir_musica(Musica musica, int fechar_borda);
 
@@ -54,7 +58,7 @@ int exibir_artistas(Lista_Artistas *artistas);
 
 int exibir_musicas_artista(Lista_Musicas *musicas, Lista_Artistas *artistas);
 
-Artista *selecionar_artista(Lista_Artistas *artistas);
+Artista *selecionar_artista(Lista_Artistas *artistas, char *msg);
 
 int criar_playlist(Lista_Playlists *lista_playlists);
 
