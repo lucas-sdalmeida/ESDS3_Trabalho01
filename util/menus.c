@@ -98,21 +98,19 @@ int ler_opcao_de(char *msg, int num_possiveis_valores,...);
 int ler_nome(char *msg, char *nome) {
     if (!nome)
         return -1;
-    char nome[TAMANHO_NOME_ARTISA];
     int nome_valido = 0;
 
     do {
         linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
         if (msg && strlen(msg) > 0)
             printf(msg);
-        fgets(nome, TAMANHO_NOME_ARTISA, stdin);
+        fgets(nome, TAMANHO_NOME_ARTISTA, stdin);
         cortar_espacos(nome, 'a');
         linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
-        nome_valido = validar_nome(nome);
-        if (!nome_valido)
+        nome_valido = formatar_nome(nome);
+        if (nome_valido)
             msg_erro("Digite um nome valido ou confira e corriga o digitado");
-    } while (!nome_valido);
-    formatar_nome(nome);
+    } while (nome_valido);
 
     return 0;
 }

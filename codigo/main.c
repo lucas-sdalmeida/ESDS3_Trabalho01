@@ -49,13 +49,14 @@ Descricao:
 #include "../tdas/playlist.h"
 #include "../tdas/lplaylists.h"
 #include "../util/menus.h"
+#include "../util/utilidades.h"
 
 int main(void) {
    Lista_Musicas *musicas = nova_lista_musicas();
    Lista_Artistas *artistas = nova_lista_artistas();
    Lista_Playlists *lista_playlists = nova_lista_playlists();
 
-   int opcao = menu_opcoes("Menu Principal", "\t>>> ", 11, "Cadastrar Artista",
+   /*int opcao = menu_opcoes("Menu Principal", "\t>>> ", 11, "Cadastrar Artista",
                   "Cadastrar Musica",
                   "Exibir Dados de Artista",
                   "Exibir Musica",
@@ -66,11 +67,13 @@ int main(void) {
                   "Apagar Artista",
                   "Apagar Playlist",
                   "Sair");
-   printf("%d\n", opcao);
-   getchar();
+   printf("%d\n", opcao);*/
 
    apagar_lista_musicas(musicas);
    apagar_lista_artistas(artistas);
    apagar_lista_playlists(lista_playlists);
+
+   getchar();
+
    return 0;
 }       

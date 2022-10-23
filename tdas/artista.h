@@ -4,12 +4,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define TAMANHO_NOME_ARTISA 200
+#define TAMANHO_NOME_ARTISTA 200
 #define TAMANHO_GENERO_ARTISTA 200
 
 typedef struct artista {
     int id;
-    char nome[TAMANHO_NOME_ARTISA];
+    char nome[TAMANHO_NOME_ARTISTA];
     char genero[TAMANHO_GENERO_ARTISTA];
 } Artista;
 
