@@ -50,7 +50,7 @@ int exibir_musica(Lista_Artistas *artistas, Musica *musica, int fechar_borda);
 
 int exibir_musicas(char *titulo_menu, Lista_Artistas *artistas, Lista_Musicas *musicas);
 
-Musica *selecionar_musica(Lista_Artistas *artistas, Lista_Musicas *musicas);
+Musica *selecionar_musica(Lista_Artistas *artistas, Lista_Musicas *musicas, char *msg);
 
 int exibir_artista(Artista *artista, int fechar_borda);
 

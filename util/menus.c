@@ -218,8 +218,11 @@ int cadastrar_musica(Lista_Musicas *musicas, Lista_Artistas *artistas) {
     
     Artista *artista_musica = selecionar_artista(artistas, 
                                 "Escolha o artista da musica:\n\t>>> ");
-    if (!artista_musica)
-        return -3;
+    if (!artista_musica) {
+        linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+        putchar(10);
+        return 1;
+    }
     
     linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
 
@@ -234,7 +237,7 @@ int cadastrar_musica(Lista_Musicas *musicas, Lista_Artistas *artistas) {
     linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
     putchar(10);
 
-    return (!adicionar_musica(musicas, musica)) ? -4 : 0;
+    return (!adicionar_musica(musicas, musica)) ? -3 : 0;
 }
 
 int exibir_musica(Lista_Artistas *artistas, Musica *musica, int fechar_borda) {
@@ -303,7 +306,7 @@ int exibir_musicas(char *titulo_menu, Lista_Artistas *artistas, Lista_Musicas *m
     return 0;
 }
 
-Musica *selecionar_musica(Lista_Artistas *artistas, Lista_Musicas *musicas) {
+Musica *selecionar_musica(Lista_Artistas *artistas, Lista_Musicas *musicas, char *msg) {
     if (!artistas)
         return NULL;
     if (!musicas)
@@ -318,7 +321,7 @@ Musica *selecionar_musica(Lista_Artistas *artistas, Lista_Musicas *musicas) {
     int opcao = 0;
 
     do {
-        id_musica = ler_opcao("Escolha a musica:\n\t>>> ", maior_id);
+        id_musica = ler_opcao(msg, maior_id);
         musica = encontrar_musica(musicas, id_musica);
         if (!musica) {
             msg_erro("Nao foi encontrada nenhuma musica com esse id|");
@@ -386,7 +389,31 @@ int exibir_artistas(Lista_Artistas *artistas) {
     return 0;
 }
 
-int exibir_musicas_artista(Lista_Musicas *musicas, Lista_Artistas *artistas);
+int exibir_musicas_artista(Lista_Musicas *musicas, Lista_Artistas *artistas) {
+    if (!musicas)
+        return -1;
+    if (!artistas)
+        return -2;
+
+    Artista *artista = selecionar_artista(artistas, 
+                                    "Escolha o artista por seu id:\n\t>>> ");
+    if (!artista) {
+        linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+        putchar(10);
+        return 1;
+    }
+
+    Lista_Musicas *musicas_artista = nova_lista_musicas();
+    encontrar_musica_artista(musicas, artista->id, musicas_artista);
+
+    if (exibir_musicas("Musicas do Artista Selecionado", artistas, musicas)) {
+        apagar_lista_musicas(musicas_artista);
+        return 2;
+    }
+    
+    apagar_lista_musicas(musicas_artista);
+    return 0;
+}
 
 Artista *selecionar_artista(Lista_Artistas *artistas, char *msg) {
     if (!artistas)
