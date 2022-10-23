@@ -36,6 +36,8 @@ int ler_opcao_de(char *msg, int num_possiveis_valores,...);
 
 int ler_nome(char *msg, char *nome);
 
+int ler_genero_musica(char *msg, char *genero);
+
 int cadastrar_artista(Lista_Artistas *artistas);
 
 int cadastrar_musica(Lista_Musicas *musicas);
@@ -50,11 +52,19 @@ int exibir_artista(Artista *artista, int fechar_borda);
 
 int exibir_artistas(Lista_Artistas *artistas);
 
+int exibir_musicas_artista(Lista_Musicas *musicas, Lista_Artistas *artistas);
+
 Artista *selecionar_artista(Lista_Artistas *artistas);
 
 int criar_playlist(Lista_Playlists *lista_playlists);
 
-int exibir_musicas_playlist(Lista_Musicas *musicas);
+int exibir_playlist(Playlist_No *playlist);
+
+int exibir_playlists(Lista_Playlists *lista_playlists);
+
+int exibir_musicas_playlist(Lista_Playlists *lista_playlists);
+
+Playlist *selecionar_playlist(Lista_Playlists *lista_playlists);
 
 int esquecer_musica(Lista_Musicas *musicas, Lista_Playlists *lista_playlists);
 

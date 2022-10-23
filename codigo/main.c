@@ -49,7 +49,6 @@ Descricao:
 #include "../tdas/playlist.h"
 #include "../tdas/lplaylists.h"
 #include "../util/menus.h"
-#include "../util/utilidades.h"
 
 int main(void) {
    Lista_Musicas *musicas = nova_lista_musicas();
@@ -68,6 +67,9 @@ int main(void) {
                   "Apagar Playlist",
                   "Sair");
    printf("%d\n", opcao);*/
+
+   cadastrar_artista(artistas);
+   exibir_artistas(artistas);
 
    apagar_lista_musicas(musicas);
    apagar_lista_artistas(artistas);

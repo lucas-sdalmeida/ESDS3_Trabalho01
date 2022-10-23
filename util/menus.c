@@ -59,7 +59,7 @@ int menu_opcoes(char *titulo, char *msg_leitura, int num_opcoes,...) {
     int i = 0;
     for (; i<num_opcoes; i++) {
         printf("%4d |", i + 1);
-        centralizar(va_arg(opcoes, char*), 54);
+        centralizar(va_arg(opcoes, char*), COMPRIMENTO_BORDA_PRINCIPAL - 6);
         if (i < num_opcoes - 1)
             linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
     }
@@ -108,9 +108,30 @@ int ler_nome(char *msg, char *nome) {
         cortar_espacos(nome, 'a');
         linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
         nome_valido = formatar_nome(nome);
-        if (nome_valido)
+        if (!nome_valido)
             msg_erro("Digite um nome valido ou confira e corriga o digitado");
-    } while (nome_valido);
+    } while (!nome_valido);
+
+    return 0;
+}
+
+int ler_genero_musica(char *msg, char *genero) {
+    if (!genero)
+        return -1;
+    
+    int genero_valido = 0;
+
+    do {    
+        linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
+        if (msg && strlen(msg) > 0)
+            printf(msg);
+        fgets(genero, TAMANHO_GENERO_ARTISTA, stdin);
+        cortar_espacos(genero, 'a');
+        genero_valido = formatar_nome(genero);
+        if (!genero_valido)
+            msg_erro("Digite um genero musical válido!");
+        linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
+    } while (!genero_valido);
 
     return 0;
 }
@@ -124,10 +145,17 @@ int cadastrar_artista(Lista_Artistas *artistas) {
     centralizar("Cadastrar Artista", COMPRIMENTO_BORDA_PRINCIPAL);
     linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
 
+    char nome[TAMANHO_NOME_ARTISTA];
+    ler_nome("Digite o nome do artista:\n\t>>> ", nome);
+    char genero_musical[TAMANHO_GENERO_ARTISTA];
+    ler_genero_musica("Digite o genero musical do artista:\n\t>>> ", 
+                        genero_musical);
+    Artista *artista = novo_artista(nome, genero_musical);
+
     linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
     putchar(10);
 
-    return 0;
+    return (!adicionar_artista(artistas, artista)) ? -2 : 0;
 }
 
 int cadastrar_musica(Lista_Musicas *musicas);
@@ -138,15 +166,59 @@ int exibir_musicas(char *titulo_menu, Lista_Musicas *musicas);
 
 Musica *selecionar_musica(Lista_Musicas *musicas);
 
-int exibir_artista(Artista *artista, int fechar_borda);
+int exibir_artista(Artista *artista, int fechar_borda) {
+    if (!artista)
+        return -1;
 
-int exibir_artistas(Lista_Artistas *artistas);
+    linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
+    printf("%4d |", artista->id);
+    centralizar(artista->nome, COMPRIMENTO_BORDA_SECUNDARIA - 6);
+    printf("     |");
+    centralizar(artista->genero, COMPRIMENTO_BORDA_SECUNDARIA - 6);
+    if (fechar_borda)
+        linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
+    
+    return 0;
+}
+
+int exibir_artistas(Lista_Artistas *artistas) {
+    if (!artistas)
+        return -1;
+
+    Artista_No *no = artistas->prox;
+    int fechar_borda = 0;
+
+    putchar(10);
+    linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+    centralizar("Artistas Cadastrados", COMPRIMENTO_BORDA_PRINCIPAL);
+    linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+    putchar(10);
+
+    while (no) {
+        if (!no->prox)
+            fechar_borda = 1;
+        exibir_artista(no->artista, fechar_borda);
+        no = no->prox;
+    }
+
+    linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+
+    return 0;
+}
+
+int exibir_musicas_artista(Lista_Musicas *musicas, Lista_Artistas *artistas);
 
 Artista *selecionar_artista(Lista_Artistas *artistas);
 
 int criar_playlist(Lista_Playlists *lista_playlists);
 
-int exibir_musicas_playlist(Lista_Musicas *musicas);
+int exibir_playlist(Playlist_No *playlist);
+
+int exibir_playlists(Lista_Playlists *lista_playlists);
+
+int exibir_musicas_playlist(Lista_Playlists *lista_playlists);
+
+Playlist *selecionar_playlist(Lista_Playlists *lista_playlists);
 
 int esquecer_musica(Lista_Musicas *musicas, Lista_Playlists *lista_playlists);
 

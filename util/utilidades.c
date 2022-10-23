@@ -71,9 +71,9 @@ int validar_nome(char *nome) {
 
 int formatar_nome(char *nome) {
     if (!nome)
-        return -1;
+        return 0;
     if (!validar_nome(nome))
-        return -2;
+        return 0;
 
     int comprimento_nome = strlen(nome);
     int primeira = 1;
@@ -90,7 +90,7 @@ int formatar_nome(char *nome) {
             primeira = 1;
     }
 
-    return 0;
+    return 1;
 }
 
 int formatar_hora(int tempo_em_segundos, char *destino) {
