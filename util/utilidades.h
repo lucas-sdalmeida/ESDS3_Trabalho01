@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "../tdas/playlist.h"
+#include "../tdas/int_queue.h"
 
 int e_letra(char digito);
 
