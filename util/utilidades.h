@@ -16,7 +16,7 @@ int formatar_nome(char *nome);
 
 int formatar_hora(int tempo_em_segundos, char *destino);
 
-int ler_seq_int(char *origem, Int_Queue *queue);
+int obter_seq_int(char *origem, Int_Queue *queue);
 
 int shuffle(Playlist *playlist);
 

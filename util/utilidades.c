@@ -105,27 +105,27 @@ int formatar_hora(int tempo_em_segundos, char *destino) {
     return sprintf(destino, "%02d:%02d:%02d", horas, minutos, tempo_em_segundos);
 }
 
-int ler_seq_int(char *origem, Int_Queue *queue) {
+int obter_seq_int(char *origem, Int_Queue *queue) {
     if (!origem)
         return -1;
     if (!queue)
         return -2;
+    
+    char *prox_numero = strtok(origem, " ");
+    int numero = 0;
+    int qtdd_numeros = 0;
 
-    int tamanho_sequencia = strlen(origem);
-    int comeco_prox = 0;
-    int num = 0;
-
-    int i = 0;
-    for (; i<tamanho_sequencia; i++) {
-        if (origem[i] != ' ')
-            continue;
-        origem[i] = 0;
-        num = atoi(&origem[comeco_prox]);
-        if (num = 0)
-            return -3;
-        int_queue_insert(queue, num);
-        comeco_prox = i + 1;
+    while (prox_numero) {
+        numero = atoi(prox_numero);
+        if (numero == 0)
+            return qtdd_numeros;
+        if (int_queue_insert(queue, numero))
+            return qtdd_numeros;
+        qtdd_numeros++;
+        prox_numero = strtok(NULL, " ");
     }
+
+    return qtdd_numeros;
 }
 
 int shuffle(Playlist *playlist) {

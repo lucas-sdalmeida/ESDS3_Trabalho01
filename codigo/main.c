@@ -68,17 +68,16 @@ int main(void) {
                   "Sair");
    printf("%d\n", opcao);*/
 
-   cadastrar_artista(artistas);
-   cadastrar_musica(musicas, artistas);
-   cadastrar_musica(musicas, artistas);
-   cadastrar_musica(musicas, artistas);
-   cadastrar_musica(musicas, artistas);
-   cadastrar_musica(musicas, artistas);
-   criar_playlist(lista_playlists, musicas, artistas);
+   adicionar_artista(artistas, novo_artista("AC DC", "METAL"));
+   adicionar_musica(musicas, nova_musica("Black In Black", artistas->prox->artista, 255));
+   adicionar_musica(musicas, nova_musica("Highway To Hell", artistas->prox->artista, 208));
+   adicionar_musica(musicas, nova_musica("TNT", artistas->prox->artista, 214));
+   Artista *ptart = adicionar_artista(artistas, novo_artista("Metallica", "METAL"))->artista;
+   adicionar_musica(musicas, nova_musica("Master Of Puppets", ptart, 515));
+   ptart = adicionar_artista(artistas, novo_artista("Linkin Park", "Rock"))->artista;
+   adicionar_musica(musicas, nova_musica("Numb", ptart, 185));
 
-   apagar_lista_musicas(musicas);
-   apagar_lista_artistas(artistas);
-   apagar_lista_playlists(lista_playlists);
+   criar_playlist(lista_playlists, musicas, artistas);
 
    getchar();
 

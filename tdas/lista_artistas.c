@@ -56,18 +56,6 @@ int remover_artista_id(Lista_Artistas *artistas, int id_artista) {
     return remover_artista(artistas, artista);
 }
 
-int quantidade_artistas(Lista_Artistas *artistas) {
-    if (!artistas)
-        return -1;
-    
-    int num_artistas = 0;
-    Artista_No *no = artistas->prox;
-
-    for (; no; no = no->prox, num_artistas++);
-
-    return num_artistas;
-}
-
 Artista *encontrar_artista(Lista_Artistas *artistas, int id) {
     if (!artistas)
         return NULL;

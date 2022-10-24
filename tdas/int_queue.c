@@ -17,18 +17,18 @@ int is_empty_int_queue(Int_Queue *queue) {
 int int_queue_insert(Int_Queue *queue, int value) {
     if (queue->rear == INT_QUEUE_MAX_LENGTH) {
         if (queue->front == 0)
-            return 0;
+            return -1;
         queue->rear = 0;
     }
     queue->values[queue->rear++] = value;
-    return 1;
+    return 0;
 }
 
 int int_queue_pop(Int_Queue *queue, int *dest) {
     if (is_empty_int_queue(queue))
-        return 0;
+        return -1;
     *dest = queue->values[queue->front++];
-    return 1;
+    return 0;
 }
 
 int del_int_queue(Int_Queue *queue) {

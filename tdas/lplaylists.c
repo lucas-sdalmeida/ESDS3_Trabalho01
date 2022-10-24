@@ -83,6 +83,7 @@ int apagar_no_lplaylist(LPlaylist_No *no_lplaylist) {
     if (!no_lplaylist)
         return 1;
     
+    apagar_playlist(no_lplaylist->musicas);
     free(no_lplaylist);
 
     return 0;

@@ -1,6 +1,8 @@
 #ifndef _INT_QUEUE_H
 #define _INT_QUEUE_H
 
+// Para praticar
+
 #include <stdlib.h>
 
 #define INT_QUEUE_MAX_LENGTH 50
