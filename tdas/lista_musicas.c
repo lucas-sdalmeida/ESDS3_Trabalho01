@@ -31,6 +31,26 @@ Musica_No *adicionar_musica(Lista_Musicas *musicas, Musica *musica) {
     return no->prox;
 }
 
+int copiar_musicas(Lista_Musicas *origem, Lista_Musicas *destino, Int_Queue *ids) {
+    if (!origem)
+        return -1;
+    if (!destino)
+        return -2;
+    if (!ids)
+        return -3;
+    
+    int num_musicas_adicionadas = 0;
+    int prox_id = 0;
+
+    while (!is_empty_int_queue(ids)) {
+        int_queue_pop(ids, &prox_id);
+        if (adicionar_musica(destino, encontrar_musica(origem, prox_id)))
+            num_musicas_adicionadas++;
+    }
+
+    return num_musicas_adicionadas;
+}
+
 int remover_musica(Lista_Musicas *musicas, Musica *musica) {
     if (!musicas)
         return -1;

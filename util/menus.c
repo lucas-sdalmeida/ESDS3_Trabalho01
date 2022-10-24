@@ -38,6 +38,14 @@ void msg_erro(char *msg) {
     putchar(10);
 }
 
+void mensagem(char *msg) {
+    if (!msg || strlen(msg) == 0);
+        return;
+    linha(BORDA_TERCIARIA, COMPRIMENTO_BORDA_TERCIARIA);
+    centralizar(msg, COMPRIMENTO_BORDA_TERCIARIA);
+    linha(BORDA_TERCIARIA, COMPRIMENTO_BORDA_TERCIARIA);
+}
+
 int menu_opcoes(char *titulo, char *msg_leitura, int num_opcoes,...) {
     if (!titulo)
         return -1;
@@ -188,13 +196,70 @@ int ler_inteiro(char *msg, int min, int max) {
     return inteiro;
 }
 
+int ler_sequencia_ids(char *msg, Int_Queue *ids) {
+    if (!ids)
+        return -1;
+
+    int opcao = 0;
+    char sequencia_ids[TAMANHO_SEQ_IDS_MUSICA];
+
+    do {
+        linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
+        if (msg && strlen(msg) > 0)
+            printf(msg);
+        fgets(sequencia_ids, TAMANHO_SEQ_IDS_MUSICA, stdin);
+        cortar_espacos(sequencia_ids, 'a');
+        linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
+
+        if (ler_seq_int(sequencia_ids, ids)) {
+            msg_erro("Digite uma sequencia valida de ids de musica!");
+            opcao = !ler_confirmacao("Tentar nova sequencia? [S/N]\n\t>>> ",
+                                        's', 'n');
+            continue;
+        }
+        
+        break;
+    } while (!opcao);
+}
+
+int ler_sequencia_musicas(char *msg, Lista_Musicas *musicas, Lista_Musicas *destino, 
+                            Lista_Artistas *artistas) {
+    if (!musicas)
+        return -1;
+    if (!destino)
+        return -2;
+    if (!artistas)
+        return -3;
+
+    Int_Queue *ids = new_int_queue();
+    int opcao = 0;
+    int num_musicas = 0;
+
+    do {
+        ler_sequencia_ids(msg, ids);
+        num_musicas = copiar_musicas(musicas, destino, ids);
+        
+        if (num_musicas == 0) {
+            mensagem("Nenhuma musica foi encontrada!");
+            opcao = !ler_confirmacao("Deseja tentar outra sequencia? [S/N]\n\t>>> ",
+                                        's', 'n'); 
+            continue;
+        }
+
+        exibir_musicas("Musicas Selecionadas", artistas, destino);
+        opcao = ler_confirmacao("Selecionar essas musicas? [S/N]\n\t>>> ",
+                                    's', 'n');
+    } while (!opcao || num_musicas == 0);
+
+    del_int_queue(ids);
+    return num_musicas;
+}
+
 int cadastrar_artista(Lista_Artistas *artistas) {
     if (!artistas)
         return -1;
     
     putchar(10);
-    linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
-    centralizar("Cadastrar Artista", COMPRIMENTO_BORDA_PRINCIPAL);
     linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
 
     char nome[TAMANHO_NOME_ARTISTA];
@@ -215,7 +280,7 @@ int cadastrar_musica(Lista_Musicas *musicas, Lista_Artistas *artistas) {
         return -1;
     if (!artistas)
         return -2;
-    
+
     Artista *artista_musica = selecionar_artista(artistas, 
                                 "Escolha o artista da musica:\n\t>>> ");
     if (!artista_musica) {
@@ -445,7 +510,37 @@ Artista *selecionar_artista(Lista_Artistas *artistas, char *msg) {
     return artista;
 }
 
-int criar_playlist(Lista_Playlists *lista_playlists);
+int criar_playlist(Lista_Playlists *lista_playlists, Lista_Musicas *musicas, 
+                    Lista_Artistas *artistas) {
+    if (!lista_playlists)
+        return -1;
+    if (!musicas)
+        return -2;
+
+    if (exibir_musicas("Musicas Cadastradas", artistas, musicas))
+        return -3;
+    
+    linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+
+    char nome_playlist[TAMANHO_NOME_LPLAYLIST];
+    ler_nome("Escolha um nome para a playlist:\n\t>>> ", nome_playlist);
+
+    char msg[95] = "Digite as musicas desejadas para a playlist pelos ids\n";
+    strcat(msg, "conforme o exemplo: 1 2 3 4 5 6\n\t>>> ");
+    Lista_Musicas *musicas_a_adicionar = nova_lista_musicas();
+    int num_musicas = ler_sequencia_musicas(msg, musicas, musicas_a_adicionar, 
+                                            artistas);
+    
+    Playlist *playlist = nova_playlist();
+    if (num_musicas > 0)
+        num_musicas = adicionar_de_lista(playlist, musicas_a_adicionar);
+
+    linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+    putchar(10);
+
+    return (!adicionar_playlist(lista_playlists, nome_playlist, playlist)) ? 
+            -4 : num_musicas;
+}
 
 int exibir_playlist(Playlist_No *playlist);
 

@@ -105,8 +105,27 @@ int formatar_hora(int tempo_em_segundos, char *destino) {
     return sprintf(destino, "%02d:%02d:%02d", horas, minutos, tempo_em_segundos);
 }
 
-int ler_vetor_int(char *origem, int tam_vetor, int *destino) {
-    return 0;
+int ler_seq_int(char *origem, Int_Queue *queue) {
+    if (!origem)
+        return -1;
+    if (!queue)
+        return -2;
+
+    int tamanho_sequencia = strlen(origem);
+    int comeco_prox = 0;
+    int num = 0;
+
+    int i = 0;
+    for (; i<tamanho_sequencia; i++) {
+        if (origem[i] != ' ')
+            continue;
+        origem[i] = 0;
+        num = atoi(&origem[comeco_prox]);
+        if (num = 0)
+            return -3;
+        int_queue_insert(queue, num);
+        comeco_prox = i + 1;
+    }
 }
 
 int shuffle(Playlist *playlist) {

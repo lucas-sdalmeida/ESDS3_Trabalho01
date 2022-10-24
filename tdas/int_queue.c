@@ -31,7 +31,7 @@ int int_queue_pop(Int_Queue *queue, int *dest) {
     return 1;
 }
 
-int *del_int_queue(Int_Queue *queue) {
+int del_int_queue(Int_Queue *queue) {
     if (!queue)
         return 1;
 

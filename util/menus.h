@@ -13,6 +13,7 @@
 #include "../tdas/lista_artistas.h"
 #include "../tdas/playlist.h"
 #include "../tdas/lplaylists.h"
+#include "../tdas/int_queue.h"
 
 #define BORDA_PRINCIPAL "=\0"
 #define BORDA_SECUNDARIA "-\0"
@@ -23,12 +24,15 @@
 #define COMPRIMENTO_BORDA_TERCIARIA 30
 #define COMPRIMENTO_BORDA_ERRO 60
 #define TAMANHO_AUX_OPCAO 10
+#define TAMANHO_SEQ_IDS_MUSICA 50
 
 void linha(char *padrao, int comprimento);
 
 void centralizar(char *texto, int espaco);
 
 void msg_erro(char *msg);
+
+void mensagem(char *msg);
 
 int menu_opcoes(char *titulo, char *msg_leitura, int num_opcoes,...);
 
@@ -41,6 +45,11 @@ int ler_nome(char *msg, char *nome);
 int ler_genero_musica(char *msg, char *genero);
 
 int ler_inteiro(char *msg, int min, int max);
+
+int ler_sequencia_ids(char *msg, Int_Queue *ids);
+
+int ler_sequencia_musicas(char *msg, Lista_Musicas *musicas, Lista_Musicas *destino, 
+                            Lista_Artistas *artistas);
 
 int cadastrar_artista(Lista_Artistas *artistas);
 
@@ -60,7 +69,8 @@ int exibir_musicas_artista(Lista_Musicas *musicas, Lista_Artistas *artistas);
 
 Artista *selecionar_artista(Lista_Artistas *artistas, char *msg);
 
-int criar_playlist(Lista_Playlists *lista_playlists);
+int criar_playlist(Lista_Playlists *lista_playlists, Lista_Musicas *musicas, 
+                    Lista_Artistas *artistas);
 
 int exibir_playlist(Playlist_No *playlist);
 

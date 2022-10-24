@@ -2,6 +2,7 @@
 #define _PLAYLIST_H
 
 #include "musica.h"
+#include "lista_musicas.h"
 #include <stdlib.h>
 
 typedef struct playlist_no {
@@ -14,6 +15,8 @@ Playlist_No *novo_no_playlist(Musica *musica);
 Playlist *nova_playlist(void);
 
 Playlist_No *adicionar_musica_playlist(Playlist *playlist, Musica *musica);
+
+int adicionar_de_lista(Playlist *playlist, Lista_Musicas *musicas);
 
 int remover_musica_playlist(Playlist *playlist, Musica *musica);
 

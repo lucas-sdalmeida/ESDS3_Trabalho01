@@ -31,6 +31,24 @@ Playlist_No *adicionar_musica_playlist(Playlist *playlist, Musica *musica) {
     return no;
 }
 
+int adicionar_de_lista(Playlist *playlist, Lista_Musicas *musicas) {
+    if (!playlist)
+        return -1;
+    if (!musicas)
+        return -2;
+    
+    Musica_No *no = musicas->prox;
+    int qtdd_musicas = 0;
+
+    while (no) {
+        if (adicionar_musica_playlist(playlist, no->musica))
+            qtdd_musicas++;
+        no = no->prox;
+    }
+
+    return qtdd_musicas;
+}
+
 int remover_musica_playlist(Playlist *playlist, Musica *musica) {
     if (!playlist)
         return -1;
