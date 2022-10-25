@@ -19,9 +19,9 @@ Musica_No *adicionar_musica(Lista_Musicas *musicas, Musica *musica);
 
 int copiar_musicas(Lista_Musicas *origem, Lista_Musicas *destino, Int_Queue *ids);
 
-int remover_musica(Lista_Musicas *musicas, Musica *musica);
+int remover_musica(Lista_Musicas *musicas, Musica *musica, int apagar_musica);
 
-int remover_musica_id(Lista_Musicas *musicas, int id_musica);
+int remover_musica_id(Lista_Musicas *musicas, int id_musica, int apagar_musica);
 
 Musica *encontrar_musica(Lista_Musicas *musicas, int id);
 

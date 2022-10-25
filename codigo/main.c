@@ -64,21 +64,21 @@ int main(void) {
                   "Exibir Musicas de Playlist",
                   "Apagar Musica",
                   "Apagar Artista",
-                  "Apagar Playlist",
+                  "Embaralhar Playlist",
                   "Sair");
    printf("%d\n", opcao);*/
 
-   adicionar_artista(artistas, novo_artista("AC DC", "METAL"));
-   adicionar_musica(musicas, nova_musica("Black In Black", artistas->prox->artista, 255));
-   adicionar_musica(musicas, nova_musica("Highway To Hell", artistas->prox->artista, 208));
-   adicionar_musica(musicas, nova_musica("TNT", artistas->prox->artista, 214));
-   Artista *ptart = adicionar_artista(artistas, novo_artista("Metallica", "METAL"))->artista;
+   
+   Artista *ptart = adicionar_artista(artistas, novo_artista("AC DC", "METAL"));
+   adicionar_musica(musicas, nova_musica("Black In Black", ptart, 255));
+   adicionar_musica(musicas, nova_musica("Highway To Hell", ptart, 208));
+   adicionar_musica(musicas, nova_musica("TNT", ptart, 214));
+
+   ptart = adicionar_artista(artistas, novo_artista("Metallica", "METAL"))->artista;
    adicionar_musica(musicas, nova_musica("Master Of Puppets", ptart, 515));
+   
    ptart = adicionar_artista(artistas, novo_artista("Linkin Park", "Rock"))->artista;
    adicionar_musica(musicas, nova_musica("Numb", ptart, 185));
-
-   criar_playlist(lista_playlists, musicas, artistas);
-   exibir_musicas_playlist(lista_playlists, artistas);
 
    getchar();
 

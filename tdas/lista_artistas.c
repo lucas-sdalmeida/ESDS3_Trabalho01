@@ -31,7 +31,7 @@ Artista_No *adicionar_artista(Lista_Artistas *artistas, Artista *artista) {
     return no->prox;
 }
 
-int remover_artista(Lista_Artistas *artistas, Artista *artista) {
+int remover_artista(Lista_Artistas *artistas, Artista *artista, int apagar_artista) {
     if (!artistas)
         return -1;
     if (!artista)
@@ -46,14 +46,14 @@ int remover_artista(Lista_Artistas *artistas, Artista *artista) {
         return 2;
     a_remover = no->prox;
     no->prox = a_remover->prox;
-    apagar_no_artista(a_remover, 1);
+    apagar_no_artista(a_remover, apagar_artista);
     return 0;
 }
 
-int remover_artista_id(Lista_Artistas *artistas, int id_artista) {
+int remover_artista_id(Lista_Artistas *artistas, int id_artista, int apagar_artista) {
     Artista *artista = encontrar_artista(artistas, id_artista);
 
-    return remover_artista(artistas, artista);
+    return remover_artista(artistas, artista, apagar_artista);
 }
 
 Artista *encontrar_artista(Lista_Artistas *artistas, int id) {

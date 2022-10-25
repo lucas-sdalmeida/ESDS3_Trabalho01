@@ -240,6 +240,8 @@ int ler_sequencia_musicas(char *msg, Lista_Musicas *musicas, Lista_Musicas *dest
     Int_Queue *ids_musicas = new_int_queue();
 
     do {
+        apagar_lista_musicas(destino->prox, 0);
+        destino->prox = NULL;
         num_musicas = ler_sequencia_ids(msg, ids_musicas);
 
         if (num_musicas == 0) {
@@ -258,10 +260,6 @@ int ler_sequencia_musicas(char *msg, Lista_Musicas *musicas, Lista_Musicas *dest
 
         exibir_musicas(NULL, artistas, destino);
         opcao = ler_confirmacao("Selecionar essas musicas? [S/N] ", 's', 'n');
-        if (!opcao) {
-            apagar_lista_musicas(destino->prox, 0);
-            destino->prox = NULL;
-        }
     } while (!opcao);
 
     del_int_queue(ids_musicas);
@@ -675,7 +673,63 @@ Playlist *selecionar_playlist(Lista_Playlists *lista_playlists) {
     return no_lplaylist->musicas;
 }
 
-int esquecer_musica(Lista_Musicas *musicas, Lista_Playlists *lista_playlists);
+int esquecer_musica(Lista_Musicas *musicas, Lista_Artistas *artistas, Lista_Playlists *lista_playlists) {
+    if (!musicas)
+        return -1;
+    if (!lista_playlists)
+        return -1;
+
+    Musica *musica;
+    musica = selecionar_musica(artistas, musicas, 
+                                "Informa e musica a remover:\n\t>>> ");
+    if (!musica) {
+        linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+        putchar(10);
+        return 1;
+    }
+
+    esquecer_musica_selecionada(musicas, artistas, lista_playlists, musica);
+
+    mensagem("Musica Removida com Sucesso!");
+    linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+    putchar(10);
+
+    return 0;
+}
+
+int esquecer_musica_selecionada(Lista_Musicas *musicas, Lista_Artistas *artistas,
+                                    Lista_Playlists *lista_playlists, Musica *musica) {
+    if (!musicas)
+        return -1;
+    if (!artistas)
+        return -2;
+    if (!lista_playlists)
+        return -3;
+    if (!musica)
+        return 1;
+    
+    remover_musica(musicas, musica, 0);
+
+    if (!lista_playlists->prox) {
+        apagar_musica(musica);
+        return 2;
+    }
+
+    LPlaylist_No *playlist = lista_playlists->prox;
+    int tam_playlist;
+
+    while (playlist) {
+        remover_musica_playlist(playlist->musicas, musica);
+        tam_playlist = tamanho_playlist(playlist->musicas);
+        if (tam_playlist == 0)
+            remover_playlist(lista_playlists, playlist->musicas);
+        playlist = playlist->prox;
+    }
+
+    apagar_musica(musica);
+
+    return 0;
+}
 
 int esquecer_artista(Lista_Artistas *artisas, Lista_Musicas *musicas,
                         Lista_Playlists *lista_playlists);

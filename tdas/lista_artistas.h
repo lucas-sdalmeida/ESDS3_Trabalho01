@@ -15,9 +15,9 @@ Lista_Artistas *nova_lista_artistas(void);
 
 Artista_No *adicionar_artista(Lista_Artistas *artistas, Artista *artista);
 
-int remover_artista(Lista_Artistas *artistas, Artista *artista);
+int remover_artista(Lista_Artistas *artistas, Artista *artista, int apagar_artista);
 
-int remover_artista_id(Lista_Artistas *artistas, int id_artista);
+int remover_artista_id(Lista_Artistas *artistas, int id_artista, int apagar_artista);
 
 int quantidade_artistas(Lista_Artistas *artistas);
 

@@ -51,7 +51,7 @@ int copiar_musicas(Lista_Musicas *origem, Lista_Musicas *destino, Int_Queue *ids
     return num_musicas_adicionadas;
 }
 
-int remover_musica(Lista_Musicas *musicas, Musica *musica) {
+int remover_musica(Lista_Musicas *musicas, Musica *musica, int apagar_musica) {
     if (!musicas)
         return -1;
     if (!musica)
@@ -65,16 +65,16 @@ int remover_musica(Lista_Musicas *musicas, Musica *musica) {
     if (!no->prox)
         return 2;
     a_remover = no->prox;
-    no = a_remover->prox;
-    apagar_no_musica(a_remover, 1);
+    no->prox = a_remover->prox;
+    apagar_no_musica(a_remover, apagar_musica);
 
     return 0;
 }
 
-int remover_musica_id(Lista_Musicas *musicas, int id_musica) {
+int remover_musica_id(Lista_Musicas *musicas, int id_musica, int apagar_musica) {
     Musica *musica = encontrar_musica(musicas, id_musica);
 
-    return remover_musica(musicas, musica);
+    return remover_musica(musicas, musica, apagar_musica);
 }
 
 Musica *encontrar_musica(Lista_Musicas *musicas, int id) {
