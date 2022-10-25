@@ -39,7 +39,7 @@ void msg_erro(char *msg) {
 }
 
 void mensagem(char *msg) {
-    if (!msg || strlen(msg) == 0);
+    if (!msg || strlen(msg) == 0)
         return;
     linha(BORDA_TERCIARIA, COMPRIMENTO_BORDA_TERCIARIA);
     centralizar(msg, COMPRIMENTO_BORDA_TERCIARIA);
@@ -78,7 +78,7 @@ int menu_opcoes(char *titulo, char *msg_leitura, int num_opcoes,...) {
     putchar(10);
 
     va_end(opcoes);
-    return 0;
+    return opcao;
 }
 
 int ler_opcao(char *msg, int num_opcoes) {
@@ -288,6 +288,10 @@ int cadastrar_artista(Lista_Artistas *artistas) {
         return -2;
     }
 
+    putchar(10);
+    mensagem("Artista Cadastrado com Sucesso!");
+    putchar(10);
+
     return 0;
 }
 
@@ -322,6 +326,10 @@ int cadastrar_musica(Lista_Musicas *musicas, Lista_Artistas *artistas) {
         apagar_musica(musica);
         return -3;
     }
+
+    putchar(10);
+    mensagem("Musica Cadastrada com sucesso");
+    putchar(10);
 
     return 0;
 }
@@ -491,7 +499,7 @@ int exibir_musicas_artista(Lista_Musicas *musicas, Lista_Artistas *artistas) {
     Lista_Musicas *musicas_artista = nova_lista_musicas();
     encontrar_musica_artista(musicas, artista->id, musicas_artista);
 
-    if (exibir_musicas("Musicas do Artista Selecionado", artistas, musicas)) {
+    if (exibir_musicas("Musicas do Artista Selecionado", artistas, musicas_artista)) {
         apagar_lista_musicas(musicas_artista, 0);
         return 2;
     }
@@ -572,6 +580,10 @@ int criar_playlist(Lista_Playlists *lista_playlists, Lista_Musicas *musicas,
         apagar_playlist(playlist);
         return -5;
     }
+
+    putchar(10);
+    mensagem("Playlist Criada com Sucesso!");
+    putchar(10);
 
     return 0;
 }

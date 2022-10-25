@@ -70,10 +70,11 @@ int main(void) {
    adicionar_musica(musicas, nova_musica("Numb", ptart, 185));
 
    do {
-      opcao = menu_opcoes("Menu Principal", "\t>>> ", 11, "Cadastrar Artista",
+      opcao = menu_opcoes("Menu Principal", "\t>>> ", 11, 
+                  "Cadastrar Artista",
                   "Cadastrar Musica",
-                  "Exibir Dados de Artista",
-                  "Exibir Musica",
+                  "Exibir Dados de Artistas",
+                  "Exibir Musicas",
                   "Exibir Musicas de Artista",
                   "Criar Playlist",
                   "Exibir Musicas de Playlist",
@@ -81,7 +82,49 @@ int main(void) {
                   "Apagar Artista",
                   "Embaralhar Playlist",
                   "Sair");
+
+      switch (opcao) {
+         case 1:
+            cadastrar_artista(artistas);
+            break;
+         case 2:
+            cadastrar_musica(musicas, artistas);
+            break;
+         case 3:
+            exibir_artistas(artistas);
+            break;
+         case 4:
+            exibir_musicas("Musicas Cadastradas", artistas, musicas);
+            break;
+         case 5:
+            exibir_musicas_artista(musicas, artistas);
+            break;
+         case 6:
+            criar_playlist(lista_playlists, musicas, artistas);
+            break;
+         case 7:
+            exibir_musicas_playlist(lista_playlists, artistas);
+            break;
+         case 8:
+            esquecer_musica(musicas, artistas, lista_playlists);
+            break;
+         case 9:
+            esquecer_artista(artistas, musicas, lista_playlists);
+            break;
+         case 10:
+            putchar(10);
+            mensagem("Ainda Nao Implementada!");
+            putchar(10);
+            break;
+         default:
+            putchar(10);
+            mensagem("Encerrando...");
+      }
    } while (opcao < 11);
+
+   apagar_lista_playlists(lista_playlists);
+   apagar_lista_artistas(artistas, 1);
+   apagar_lista_musicas(musicas, 1);
 
    getchar();
 
