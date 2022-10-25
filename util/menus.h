@@ -82,10 +82,10 @@ Playlist *selecionar_playlist(Lista_Playlists *lista_playlists);
 
 int esquecer_musica(Lista_Musicas *musicas, Lista_Artistas *artistas, Lista_Playlists *lista_playlists);
 
-int esquecer_musica_selecionada(Lista_Musicas *musicas, Lista_Artistas *artistas,
-                                    Lista_Playlists *lista_playlists, Musica *musica);
+int esquecer_musica_selecionada(Lista_Musicas *musicas, Lista_Playlists *lista_playlists,
+                                Musica *musica);
 
-int esquecer_artista(Lista_Artistas *artisas, Lista_Musicas *musicas,
+int esquecer_artista(Lista_Artistas *artistas, Lista_Musicas *musicas,
                         Lista_Playlists *lista_playlists);
 
 #endif

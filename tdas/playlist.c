@@ -49,6 +49,18 @@ int adicionar_de_lista(Playlist *playlist, Lista_Musicas *musicas) {
     return qtdd_musicas;
 }
 
+int tamanho_playlist(Playlist *playlist) {
+    if (!playlist)
+        return -1;
+    
+    Playlist_No *no = playlist->prox;
+    int num_musicas = 0;
+
+    for (; no != playlist; num_musicas++, no = no->prox);
+
+    return num_musicas;
+}
+
 int remover_musica_playlist(Playlist *playlist, Musica *musica) {
     if (!playlist)
         return -1;

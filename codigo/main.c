@@ -54,8 +54,23 @@ int main(void) {
    Lista_Musicas *musicas = nova_lista_musicas();
    Lista_Artistas *artistas = nova_lista_artistas();
    Lista_Playlists *lista_playlists = nova_lista_playlists();
+   int opcao;
 
-   /*int opcao = menu_opcoes("Menu Principal", "\t>>> ", 11, "Cadastrar Artista",
+   // Para facilitar os testes
+   
+   Artista *ptart = adicionar_artista(artistas, novo_artista("AC DC", "METAL"))->artista;
+   adicionar_musica(musicas, nova_musica("Black In Black", ptart, 255));
+   adicionar_musica(musicas, nova_musica("Highway To Hell", ptart, 208));
+   adicionar_musica(musicas, nova_musica("TNT", ptart, 214));
+
+   ptart = adicionar_artista(artistas, novo_artista("Metallica", "METAL"))->artista;
+   adicionar_musica(musicas, nova_musica("Master Of Puppets", ptart, 515));
+
+   ptart = adicionar_artista(artistas, novo_artista("Linkin Park", "Rock"))->artista;
+   adicionar_musica(musicas, nova_musica("Numb", ptart, 185));
+
+   do {
+      opcao = menu_opcoes("Menu Principal", "\t>>> ", 11, "Cadastrar Artista",
                   "Cadastrar Musica",
                   "Exibir Dados de Artista",
                   "Exibir Musica",
@@ -66,19 +81,7 @@ int main(void) {
                   "Apagar Artista",
                   "Embaralhar Playlist",
                   "Sair");
-   printf("%d\n", opcao);*/
-
-   
-   Artista *ptart = adicionar_artista(artistas, novo_artista("AC DC", "METAL"));
-   adicionar_musica(musicas, nova_musica("Black In Black", ptart, 255));
-   adicionar_musica(musicas, nova_musica("Highway To Hell", ptart, 208));
-   adicionar_musica(musicas, nova_musica("TNT", ptart, 214));
-
-   ptart = adicionar_artista(artistas, novo_artista("Metallica", "METAL"))->artista;
-   adicionar_musica(musicas, nova_musica("Master Of Puppets", ptart, 515));
-   
-   ptart = adicionar_artista(artistas, novo_artista("Linkin Park", "Rock"))->artista;
-   adicionar_musica(musicas, nova_musica("Numb", ptart, 185));
+   } while (opcao < 11);
 
    getchar();
 
