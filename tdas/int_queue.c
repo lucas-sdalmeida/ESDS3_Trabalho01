@@ -15,10 +15,10 @@ int is_empty_int_queue(Int_Queue *queue) {
 }
 
 int int_queue_insert(Int_Queue *queue, int value) {
-    if (queue->rear == INT_QUEUE_MAX_LENGTH) {
+    if (queue->rear == INT_QUEUE_MAX_LENGTH - 1) {
         if (queue->front == 0)
             return -1;
-        queue->rear = 0;
+        queue->rear = -1;
     }
     queue->values[queue->rear++] = value;
     return 0;

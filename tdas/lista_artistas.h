@@ -25,8 +25,8 @@ Artista *encontrar_artista(Lista_Artistas *artistas, int id);
 
 int maior_id_artista(Lista_Artistas *artistas);
 
-int apagar_no_artista(Artista_No *no_artista);
+int apagar_no_artista(Artista_No *no_artista, int remover_artista);
 
-int apagar_lista_artistas(Lista_Artistas *artistas);
+int apagar_lista_artistas(Lista_Artistas *artistas, int remover_artista);
 
 #endif

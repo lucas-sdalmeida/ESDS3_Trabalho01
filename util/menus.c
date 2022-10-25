@@ -258,8 +258,10 @@ int ler_sequencia_musicas(char *msg, Lista_Musicas *musicas, Lista_Musicas *dest
 
         exibir_musicas(NULL, artistas, destino);
         opcao = ler_confirmacao("Selecionar essas musicas? [S/N] ", 's', 'n');
-        apagar_lista_musicas(destino->prox);
-        destino->prox = NULL;
+        if (!opcao) {
+            apagar_lista_musicas(destino->prox, 0);
+            destino->prox = NULL;
+        }
     } while (!opcao);
 
     del_int_queue(ids_musicas);
@@ -492,11 +494,11 @@ int exibir_musicas_artista(Lista_Musicas *musicas, Lista_Artistas *artistas) {
     encontrar_musica_artista(musicas, artista->id, musicas_artista);
 
     if (exibir_musicas("Musicas do Artista Selecionado", artistas, musicas)) {
-        apagar_lista_musicas(musicas_artista);
+        apagar_lista_musicas(musicas_artista, 0);
         return 2;
     }
     
-    apagar_lista_musicas(musicas_artista);
+    apagar_lista_musicas(musicas_artista, 0);
     return 0;
 }
 
@@ -563,7 +565,7 @@ int criar_playlist(Lista_Playlists *lista_playlists, Lista_Musicas *musicas,
 
     Playlist *playlist = nova_playlist();
     adicionar_de_lista(playlist, musicas_playlist);
-    apagar_lista_musicas(musicas_playlist);
+    apagar_lista_musicas(musicas_playlist, 0);
 
     linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
     putchar(10);
@@ -576,13 +578,102 @@ int criar_playlist(Lista_Playlists *lista_playlists, Lista_Musicas *musicas,
     return 0;
 }
 
-int exibir_playlist(Playlist_No *playlist);
+int exibir_playlist(LPlaylist_No *playlist) {
+    if (!playlist)
+        return -1;
 
-int exibir_playlists(Lista_Playlists *lista_playlists);
+    linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
+    printf("%4d |", playlist->id);
+    centralizar(playlist->nome, COMPRIMENTO_BORDA_SECUNDARIA - 6);
+    linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_SECUNDARIA);
 
-int exibir_musicas_playlist(Lista_Playlists *lista_playlists);
+    return 0;
+}
 
-Playlist *selecionar_playlist(Lista_Playlists *lista_playlists);
+int exibir_playlists(Lista_Playlists *lista_playlists) {
+    if (!lista_playlists)
+        return -1;
+    
+    LPlaylist_No *no = lista_playlists->prox;
+
+    putchar(10);
+    linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+    if (!no) {
+        centralizar("Nenhuma playlist foi criada ainda!", COMPRIMENTO_BORDA_PRINCIPAL);
+        linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+        putchar(10);
+        return 1;
+    }
+    centralizar("Playlists Cadastradas", COMPRIMENTO_BORDA_PRINCIPAL);
+    linha(BORDA_SECUNDARIA, COMPRIMENTO_BORDA_PRINCIPAL);
+    printf("  id |");
+    centralizar("Nome da Playlist", COMPRIMENTO_BORDA_PRINCIPAL - 6);
+    linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+
+    while (no) {
+        exibir_playlist(no);
+        no = no->prox;
+    }
+
+    linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+    putchar(10);
+
+    return 0;
+}
+
+int exibir_musicas_playlist(Lista_Playlists *lista_playlists, Lista_Artistas *artistas) {
+    if (!lista_playlists)
+        return -1;
+
+    Playlist *playlist = selecionar_playlist(lista_playlists);
+    if (!playlist) {
+        linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+        putchar(10);
+        return 1;
+    }
+
+    Lista_Musicas *musicas_playlist = nova_lista_musicas();
+    if (!playlist_para_lista(musicas_playlist, playlist)) {
+        msg_erro("Falha ao obter as musicas das playlists!");
+        linha(BORDA_PRINCIPAL, COMPRIMENTO_BORDA_PRINCIPAL);
+        putchar(10);
+        return -1;
+    }
+
+    exibir_musicas("Musicas da Playlist", artistas, musicas_playlist);
+    apagar_lista_musicas(musicas_playlist, 0);
+
+    return 0;
+}
+
+Playlist *selecionar_playlist(Lista_Playlists *lista_playlists) {
+    if (!lista_playlists)
+        return NULL;
+
+    if (exibir_playlists(lista_playlists))
+        return NULL;
+    
+    int maior_id = maior_id_lplaylist(lista_playlists);
+    int id_playlist = 0;
+    LPlaylist_No *no_lplaylist = NULL;
+    int opcao = 0;
+
+    do {
+        id_playlist = ler_opcao("Selecione a playlist pelo id:\n\t>>> ", maior_id);
+        no_lplaylist = encontrar_playlist(lista_playlists, id_playlist);
+
+        if (!no_lplaylist) {
+            msg_erro("A playlist nao foi encontrada! Verifique o id digitado!");
+            opcao = !ler_confirmacao("Tentar novamente? [S/N] ", 's', 'n');
+            continue;
+        }
+        
+        exibir_playlist(no_lplaylist);
+        opcao = ler_confirmacao("Selecionar essa musica? [S/N] ", 's', 'n');
+    } while (!opcao);
+
+    return no_lplaylist->musicas;
+}
 
 int esquecer_musica(Lista_Musicas *musicas, Lista_Playlists *lista_playlists);
 

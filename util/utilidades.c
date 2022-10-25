@@ -128,6 +128,24 @@ int obter_seq_int(char *origem, Int_Queue *queue) {
     return qtdd_numeros;
 }
 
+int playlist_para_lista(Lista_Musicas *musicas, Playlist *origem) {
+    if (!musicas)
+        return -1;
+    if (!origem)
+        return -2;
+
+    Playlist_No *no_playlist = origem->prox;
+    int num_musicas = 0;
+
+    while (no_playlist != origem) {
+        if (adicionar_musica(musicas, no_playlist->musica))
+            num_musicas++;
+        no_playlist = no_playlist->prox;
+    }
+
+    return num_musicas;
+}
+
 int shuffle(Playlist *playlist) {
     return 0;
 }

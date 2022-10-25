@@ -72,11 +72,11 @@ Artista *selecionar_artista(Lista_Artistas *artistas, char *msg);
 int criar_playlist(Lista_Playlists *lista_playlists, Lista_Musicas *musicas, 
                     Lista_Artistas *artistas);
 
-int exibir_playlist(Playlist_No *playlist);
+int exibir_playlist(LPlaylist_No *playlist);
 
 int exibir_playlists(Lista_Playlists *lista_playlists);
 
-int exibir_musicas_playlist(Lista_Playlists *lista_playlists);
+int exibir_musicas_playlist(Lista_Playlists *lista_playlists, Lista_Artistas *artistas);
 
 Playlist *selecionar_playlist(Lista_Playlists *lista_playlists);
 

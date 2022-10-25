@@ -78,8 +78,9 @@ int main(void) {
    adicionar_musica(musicas, nova_musica("Numb", ptart, 185));
 
    criar_playlist(lista_playlists, musicas, artistas);
+   exibir_musicas_playlist(lista_playlists, artistas);
 
    getchar();
 
    return 0;
-}       
+}

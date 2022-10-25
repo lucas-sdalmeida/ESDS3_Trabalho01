@@ -46,7 +46,7 @@ int remover_artista(Lista_Artistas *artistas, Artista *artista) {
         return 2;
     a_remover = no->prox;
     no->prox = a_remover->prox;
-    apagar_no_artista(a_remover);
+    apagar_no_artista(a_remover, 1);
     return 0;
 }
 
@@ -91,22 +91,23 @@ int maior_id_artista(Lista_Artistas *artistas) {
     return maior_id;
 }
 
-int apagar_no_artista(Artista_No *no_artista) {
+int apagar_no_artista(Artista_No *no_artista, int remover_artista) {
     if (!no_artista)
         return 1;
     
-    apagar_artista(no_artista->artista);
+    if (remover_artista)
+        apagar_artista(no_artista->artista);
     free(no_artista);
 }
 
-int apagar_lista_artistas(Lista_Artistas *artistas) {
+int apagar_lista_artistas(Lista_Artistas *artistas, int remover_artista) {
     if (!artistas)
         return 1;
 
     Artista_No *prox = artistas->prox;
 
     while (artistas) {
-        apagar_no_artista(artistas);
+        apagar_no_artista(artistas, remover_artista);
         artistas = prox;
         if (artistas)
             prox = artistas->prox;
